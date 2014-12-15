@@ -1,0 +1,55 @@
+#!/usr/bin/env python
+# Copyright (c) 2012 The Chromium Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+
+# A simple native messaging host. Shows a Tkinter dialog with incoming messages
+# that also allows to send message back to the webapp.
+
+# Tikplay changes 2014 Sampsa Laapotti
+
+import struct
+import sys
+import threading
+import Queue
+import os
+import json
+
+# Thread that reads messages from the webapp.
+def read_thread_func(queue):
+  message_number = 0
+  while 1:
+    # Read the message length (first 4 bytes).
+    text_length_bytes = sys.stdin.read(4)
+
+    if len(text_length_bytes) == 0:
+      if queue:
+        queue.put(None)
+      sys.exit(0)
+
+    # Unpack message length as 4 byte integer.
+    text_length = struct.unpack('i', text_length_bytes)[0]
+
+    # Read the text (JSON object) of the message.
+    text = sys.stdin.read(text_length).decode('utf-8')
+
+    if queue:
+      queue.put(text)
+
+def Main():
+  queue = Queue.Queue()
+  thread = threading.Thread(target=read_thread_func, args=(queue,))
+  thread.daemon = True
+  thread.start()
+  data = json.loads(queue.get()) #parse data from request
+  url = ""
+  for key, value in data.items():
+    url = value # last value in key-value pairs
+  ssh_command = "ssh kekkonen tikplay \"\'" + url + "\'\"" 
+  os.system(ssh_command) # Execute the command
+  sys.exit(0)
+
+
+if __name__ == '__main__':
+  Main()

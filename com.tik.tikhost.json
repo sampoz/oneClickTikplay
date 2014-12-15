@@ -1,0 +1,9 @@
+{
+  "name": "com.tik.tikhost",
+  "description": "Tikplay listener",
+  "path": "/usr/bin/sendToTikplay",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://nbkofiojfmnelnnbbodpelcpkkddamkj/"
+  ]
+}

@@ -4,7 +4,7 @@
 * restart chrom(e/ium)
 
 * Put sendToTikplay in /usr/bin and make it excutable and accessable to the user running chrome
-* load chrome-extension (this folder) from chrome ( Extensions, developer mode, load unpacked extension ) 
+* load chrome-extension (this folder) from chrom(e/ium) ( Extensions, developer mode, load unpacked extension ) 
 
 ## Requirements:
 * Python

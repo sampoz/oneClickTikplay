@@ -1,9 +1,36 @@
-<head>
-</head>
-<body>
+<html>
+    <head>
+        <script type="text/javascript" src="oneclicktik.js"></script>
+        <style>
+            html {
+                width: 150px;
+                background-color: black;
+                padding: 5px;
+                color: white;
+            }
 
-<h1> Tik-taikaa, biisisi lähti juuri kohti Kekkosta! </h1>
+            .button {
+                background-color: lightgray;
+                padding: 2px 4px;
+                margin: 2px;
+                width: 40px;
+                cursor: pointer;
+                color: black;
+                text-align: center;
+                float: left;
+            }
 
-<script type="text/javascript" src="oneclicktik.js"></script>
-
-</body>
+            #messagediv {
+                color: red;
+                padding: 2px;
+                float: left;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <p>Do you want to send current URL to TikPlay?</p>
+        <div class="button" id="TikPlayButton">Yes!</div>
+        <div id="MessageDiv"/>
+    </body>
+</html>

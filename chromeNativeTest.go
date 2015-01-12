@@ -6,6 +6,8 @@ import (
 	"io"
 	"log"
 	"os"
+	"time"
+	"fmt"
 )
 
 type inputMsg struct {
@@ -14,6 +16,14 @@ type inputMsg struct {
 
 type outputMsg struct {
 	Reverse string
+	Time JSONTime
+}
+
+type JSONTime time.Time
+
+func (t JSONTime) MarshalJSON() ([]byte, error) {
+	stamp := fmt.Sprintf("\"%s\"", time.Time(t).Format("Mon Jan 2 15:04:05"))
+	return []byte(stamp), nil
 }
 
 // A simple script to act as the native host for chrome plugin.
@@ -22,6 +32,7 @@ type outputMsg struct {
 // message that includes one value "reverse" that is the received string
 // but reversed.
 func main() {
+	var startTime = time.Now()
 	for {
 		var size uint32
 		err := binary.Read(os.Stdin, binary.LittleEndian, &size)
@@ -45,7 +56,7 @@ func main() {
 			n--
 			runes[n] = rune
 		}
-		outMsg := outputMsg{string(runes[n:])}
+		outMsg := outputMsg{string(runes[n:]), JSONTime(startTime)}
 
 		outBytes, err := json.Marshal(outMsg)
 
